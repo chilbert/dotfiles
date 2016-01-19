@@ -1,4 +1,4 @@
-# shanson's Dotfiles - Forked from Ryan Bates
+# Chase Hilberts Dotfiles - Forked from Steve Hanson / Ryan Bates
 
 To install, just fork and then clone this to `~/.dotfiles`. Then run the rakefile script. This will remove your existing `.vimrc, .zshrc, .irbrc, .gvimrc, .gemrc, .gitconifg.erb, .oh-my-zsh, .vim` files/directories in your home directory. Back these up before running the script!
 
