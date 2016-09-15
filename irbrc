@@ -50,3 +50,4 @@ end
 def paste
   `pbpaste`
 end
+require 'irb/completion'

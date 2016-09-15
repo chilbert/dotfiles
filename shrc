@@ -77,6 +77,8 @@ PATH=$PATH:/opt/local/bin
 PATH=$PATH:~/.dotfiles/scripts:~/.dotfiles/scripts/private
 PATH=$PATH:~/bin
 PATH=$PATH:~/go/bin
+PATH=$PATH:~/Library/Android/sdk/tools
+PATH=$PATH:~/Library/Android/sdk/platform-tools
 PATH=$PATH:~/.rbenv/bin:~/.rbenv/shims
 eval "$(rbenv init -)"
 
@@ -88,6 +90,11 @@ export GOPATH=~/go
 function ports() { # Find which process is using 3000 or supplied port, then run kill -9 {pid}
   local port="${1:-3000}"
   lsof -wni tcp:${port};
+}
+
+function kill_port() { # Finds which process is using 3000 or supplied port and kills it
+  local port="${1:-3000}"
+  kill -9 $(lsof -i tcp:${port} -t)
 }
 
 # mkdir recursively and then cd to it

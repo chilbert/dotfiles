@@ -23,3 +23,5 @@ log/*.log
 public/assets
 tmp/**/*
 *.bak
+vendor/bundle
+.DS_Store

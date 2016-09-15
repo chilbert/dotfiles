@@ -46,9 +46,9 @@ Plugin 'mustache/vim-mustache-handlebars' " mustache/handlebars syntax & indent
 call vundle#end()
 filetype plugin indent on
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
