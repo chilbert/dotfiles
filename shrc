@@ -2,14 +2,15 @@
 alias editor="atom"
 alias dotfiles="editor ~/.dotfiles"
 alias shrc="editor ~/.dotfiles/shrc"
+alias privaterc="editor ~/.dotfiles/privaterc"
 alias ios="open -a iPhone\ Simulator"
 alias chzsh="chsh -s /bin/zsh"
 alias ch="open -a \"Google Chrome\""
 alias refresh="source ~/.zshrc"
 alias tmux="tmux -2"  # -2 forces tmux to use 256 colors
-alias json="pbpaste | jq . | pbcopy"
+alias json="pbpaste | jq . | pbcopy" # prettifies JSON in clipboard and stores back in clipboard
 alias st="open -a SourceTree"
-alias s="subl ."
+alias v="st ." # nmeumonic: 'version control'
 alias a="atom ."
 alias f="fdir"
 
@@ -36,13 +37,22 @@ alias gcb="current_branch"
 alias ggp="git push -u origin `(current_branch)`"
 
 ## HEROKU ##
-alias hlogs="heroku logs -t --remote"
+alias hl="heroku logs -t --remote"
+alias hlogs="hl"
 alias hconfig='heroku config --remote'
+alias hconf="hconfig"
 alias hc="heroku run rails c --remote"
+alias hmigrate="heroku run rake db:migrate --remote"
+alias hm="hmigrate"
+alias hr="heroku run"
+alias ha="heroku addons:open"
 alias hbackup="heroku pg:backups:capture --remote"
 alias hake="heroku run rake"
 alias nr="heroku addons:open newrelic"
 alias pt="heroku addons:open papertrail"
+
+## PHP ##
+alias phplog="tail -f /Applications/MAMP/logs/php_error.log"
 
 ## POSTGRES ##
 alias pglog="tail -f /usr/local/var/postgres/server.log"
@@ -51,19 +61,16 @@ alias pgdeletepid="rm /usr/local/var/postgres/postmaster.pid"
 alias pgstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 
 ## RUBY ##
-alias bake="bundle exec rake"
-alias bails="bundle exec rails"
-alias bm="bundle exec middleman"
-alias bailsprod="RAILS_ENV=production SECRET_KEY_BASE=abc bails s"
-alias boreman="bundle exec foreman"
 alias be="bundle exec"
-alias bspec="bundle exec rspec"
 alias rc="bundle exec rails c"
 alias ms="make start"
 alias springer="bundle exec spring stop && bundle exec spring start"
 alias springrspec="bundle exec spring binstub rspec"
+alias routes="bin/rake routes"
 
 ## MISCELLANEOUS ##
+# add ruby gem info to the man command
+alias man="gem man -ls"
 alias kts='tmux ls | awk '\''{print $1}'\'' | sed '\''s/://g'\'' | xargs -I{} tmux kill-session -t {}'
 # fix oh-my-zshissue with '#' being misinterpreted by bower
 alias bower='noglob bower'
@@ -80,9 +87,11 @@ PATH=$PATH:~/go/bin
 PATH=$PATH:~/Library/Android/sdk/tools
 PATH=$PATH:~/Library/Android/sdk/platform-tools
 PATH=$PATH:~/.rbenv/bin:~/.rbenv/shims
+PATH=~/.rbenv/bin:~/.rbenv/bin/shims:$PATH
 eval "$(rbenv init -)"
 
 export PATH
+#export NODE_PATH=/usr/local/bin/node
 export GOPATH=~/go
 
 ## FUNCTIONS ##
@@ -106,8 +115,9 @@ function fdir() {
   find . -maxdepth $depth -type d -name "*${1}*"
 }
 
+# simple HTTP server. just type `server` for server on 4000
 function server() {
-  local port="${1:-8000}"
+  local port="${1:-4000}"
   python -m SimpleHTTPServer "$port"
 }
 
@@ -116,7 +126,7 @@ function ghinit() {
 }
 
 function pow() {
-	echo "http://${1}.10.0.1.96.xip.io/"
+  echo "http://${1}.10.0.1.96.xip.io/"
 }
 
 function light() {
@@ -132,6 +142,7 @@ function hideHidden(){
   defaults write com.apple.finder AppleShowAllFiles -bool NO
   killall Finder
 }
+
 function showHidden(){
   defaults write com.apple.finder AppleShowAllFiles -bool YES
   killall Finder
@@ -153,6 +164,12 @@ function import() pg_restore --verbose --clean --no-acl --no-owner -h localhost 
 c() { cd ~/dev/$1; }
 _c() { _files -W ~/dev -/; }
 compdef _c c
+
+# alias "s {x}" to do "cd ~/Sites/{x}" with tab completion
+s() { cd ~/Sites/$1; }
+_s() { _files -W ~/Sites -/; }
+compdef _s s
+
 
 # alias "h {x}" to do "cd ~/{x}" with tab completion
 h() { cd ~/$1; }
